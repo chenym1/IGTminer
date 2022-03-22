@@ -1,0 +1,4 @@
+mcl	Dongen, S.v. A cluster algorithm for graphs. in Information Systems [INS] (CWI, 2000).
+gff2bed	Neph, S. et al. BEDOPS: high-performance genomic feature operations. Bioinformatics 28, 1919-20 (2012).
+gffread	Pertea, G. & Pertea, M. GFF Utilities: GffRead and GffCompare. F1000Res 9(2020).
+exonerate	Slater, G.S. & Birney, E. Automated generation of heuristics for biological sequence comparison. BMC Bioinformatics 6, 31 (2005).
