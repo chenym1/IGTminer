@@ -47,6 +47,7 @@ Usage () {
         echo "  -m <str>    If parameter '-r' is empty, 
                please select plastid (pt) or mitochondrion (mt) [default pt]"
         echo "  -p <file>   Organelle genome fasta"
+        echo "  -s <float>  Minimum match percent of sequences to a genome [default 75]"
         echo "  -d <int>    Maximum distance for clustering NOGs [default 140000]"
         echo "  -n <str>    Prefix name of output file [default NOG]"
         echo "  -t <int>    Number of threads [default 12]"
@@ -61,8 +62,9 @@ name="NOG"
 num_threads=12
 protraw="pt"
 distance=140000
+percent_exonerate=75
 
-while getopts "hg:f:c:r:m:p:d:n:t:" opt
+while getopts "hg:f:c:r:m:p:s:d:n:t:" opt
 do
     case $opt in
         h)
@@ -86,6 +88,9 @@ do
                 ;;
         p)
                 origin_genomefasta=$OPTARG
+                ;;
+        s)
+                percent_exonerate=$OPTARG
                 ;;
         d)
                 distance=$OPTARG
@@ -189,7 +194,7 @@ python ${dec}/filter_blast_hits.py ${fa}.fai ${name}_out/${name}.cds.blast | bed
 
 bedtools getfasta -name -fi $fa -bed ${name}_out/${name}.cds_blast.bed -fo ${name}_out/${name}.cds_blast.fa
 
-${dec}/../include/exonerate -t ${name}_out/${name}.cds_blast.fa -q $prot --model protein2genome --showtargetgff --maxintron 2000 --percent 75 > ${name}_out/${name}.exonerate.out
+${dec}/../include/exonerate -t ${name}_out/${name}.cds_blast.fa -q $prot --model protein2genome --showtargetgff --maxintron 2000 --percent $percent_exonerate > ${name}_out/${name}.exonerate.out
 
 python ${dec}/exonerate_gff3.py ${name}_out/${name}.exonerate.out ${name} > ${name}_out/${name}.reann_pt.gff3
 
